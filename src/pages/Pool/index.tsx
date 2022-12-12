@@ -336,7 +336,7 @@ export default function Pool() {
                 )}
               </MainContentWrapper>
               <HideSmall>
-                <CTACards />
+                {/* <CTACards /> */}
               </HideSmall>
             </AutoColumn>
           </AutoColumn>

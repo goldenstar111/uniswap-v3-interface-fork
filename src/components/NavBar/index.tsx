@@ -106,7 +106,7 @@ const Navbar = () => {
             </Box>
             {!isNftPage && (
               <Box display={{ sm: 'flex', lg: 'none' }}>
-                <ChainSelector leftAlign={true} />
+                {/* <ChainSelector leftAlign={true} /> */}
               </Box>
             )}
             <Row gap={{ xl: '0', xxl: '8' }} display={{ sm: 'none', lg: 'flex' }}>
@@ -114,20 +114,20 @@ const Navbar = () => {
             </Row>
           </Box>
           <Box className={styles.middleContainer} alignItems="flex-start">
-            <SearchBar />
+            {/* <SearchBar /> */}
           </Box>
           <Box className={styles.rightSideContainer}>
             <Row gap="12">
               <Box position="relative" display={{ sm: 'flex', xl: 'none' }}>
-                <SearchBar />
+                {/* <SearchBar /> */}
               </Box>
               <Box display={{ sm: 'none', lg: 'flex' }}>
-                <MenuDropdown />
+                {/* <MenuDropdown /> */}
               </Box>
               {isNftPage && <Bag />}
               {!isNftPage && (
                 <Box display={{ sm: 'none', lg: 'flex' }}>
-                  <ChainSelector />
+                  {/* <ChainSelector /> */}
                 </Box>
               )}
 
@@ -139,7 +139,7 @@ const Navbar = () => {
       <MobileBottomBar>
         <PageTabs />
         <Box marginY="4">
-          <MenuDropdown />
+          {/* <MenuDropdown /> */}
         </Box>
       </MobileBottomBar>
     </>
