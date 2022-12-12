@@ -11,9 +11,9 @@ import { NavLink, NavLinkProps, useLocation, useNavigate } from 'react-router-do
 import styled from 'styled-components/macro'
 
 import { Bag } from './Bag'
-import { ChainSelector } from './ChainSelector'
-import { MenuDropdown } from './MenuDropdown'
-import { SearchBar } from './SearchBar'
+// import { ChainSelector } from './ChainSelector'
+// import { MenuDropdown } from './MenuDropdown'
+// import { SearchBar } from './SearchBar'
 import * as styles from './style.css'
 
 const MobileBottomBar = styled.div`
