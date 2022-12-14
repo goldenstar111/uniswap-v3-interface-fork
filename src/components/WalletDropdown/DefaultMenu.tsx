@@ -1,15 +1,11 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { TransactionSummary } from 'components/AccountDetailsV2'
 import { ButtonPrimary } from 'components/Button'
-import { useActiveLocale } from 'hooks/useActiveLocale'
-import { useMemo } from 'react'
-import { ChevronRight, Moon, Sun } from 'react-feather'
+import { Moon, Sun } from 'react-feather'
 import { useToggleWalletModal } from 'state/application/hooks'
 import { useDarkModeManager } from 'state/user/hooks'
 import styled from 'styled-components/macro'
 
-import { useAllTransactions } from '../../state/transactions/hooks'
 import AuthenticatedHeader from './AuthenticatedHeader'
 import { MenuState } from './index'
 
@@ -60,26 +56,6 @@ const ToggleMenuItem = styled.button`
   }
 `
 
-const FlexContainer = styled.div`
-  display: flex;
-`
-
-const LatestPendingTxnBox = styled(FlexContainer)`
-  display: flex;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.backgroundModule};
-  align-items: center;
-  gap: 8px;
-`
-
-const PendingBadge = styled.span`
-  background-color: ${({ theme }) => theme.accentActionSoft};
-  color: ${({ theme }) => theme.accentAction};
-  font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 4px;
-`
-
 const IconWrap = styled.span`
   display: inline-block;
   margin-top: auto;
@@ -99,28 +75,11 @@ const DefaultText = styled.span`
   font-weight: 400;
 `
 
-const CenterVertically = styled.div`
-  margin-top: auto;
-  margin-bottom: auto;
-`
-
 const WalletDropdown = ({ setMenu }: { setMenu: (state: MenuState) => void }) => {
   const { account } = useWeb3React()
   const isAuthenticated = !!account
   const [darkMode, toggleDarkMode] = useDarkModeManager()
-  const activeLocale = useActiveLocale()
-  const ISO = activeLocale.split('-')[0].toUpperCase()
-  const allTransactions = useAllTransactions()
   const toggleWalletModal = useToggleWalletModal()
-
-  const pendingTransactions = useMemo(
-    () => Object.values(allTransactions).filter((tx) => !tx.receipt),
-    [allTransactions]
-  )
-  const latestPendingTransaction =
-    pendingTransactions.length > 0
-      ? pendingTransactions.sort((tx1, tx2) => tx2.addedTime - tx1.addedTime)[0]
-      : undefined
 
   return (
     <DefaultMenuWrap>
@@ -132,45 +91,6 @@ const WalletDropdown = ({ setMenu }: { setMenu: (state: MenuState) => void }) =>
         </ConnectButton>
       )}
       <Divider />
-      {isAuthenticated && (
-        <>
-          <ToggleMenuItem data-testid="wallet-transactions" onClick={() => setMenu(MenuState.TRANSACTIONS)}>
-            <DefaultText>
-              <Trans>Transactions</Trans>{' '}
-              {pendingTransactions.length > 0 && (
-                <PendingBadge>
-                  {pendingTransactions.length} <Trans>Pending</Trans>
-                </PendingBadge>
-              )}
-            </DefaultText>
-            <IconWrap>
-              <ChevronRight size={16} strokeWidth={3} />
-            </IconWrap>
-          </ToggleMenuItem>
-          {!!latestPendingTransaction && (
-            <LatestPendingTxnBox>
-              <TransactionSummary
-                key={latestPendingTransaction.hash}
-                transactionDetails={latestPendingTransaction}
-                isLastTransactionInList={true}
-              />
-            </LatestPendingTxnBox>
-          )}
-        </>
-      )}
-      <ToggleMenuItem data-testid="wallet-select-language" onClick={() => setMenu(MenuState.LANGUAGE)}>
-        <DefaultText>
-          <Trans>Language</Trans>
-        </DefaultText>
-        <FlexContainer>
-          <CenterVertically>
-            <DefaultText>{ISO}</DefaultText>
-          </CenterVertically>
-          <IconWrap>
-            <ChevronRight size={16} strokeWidth={3} />
-          </IconWrap>
-        </FlexContainer>
-      </ToggleMenuItem>
       <ToggleMenuItem data-testid="wallet-select-theme" onClick={toggleDarkMode}>
         <DefaultText>{darkMode ? <Trans> Light theme</Trans> : <Trans>Dark theme</Trans>}</DefaultText>
         <IconWrap>{darkMode ? <Sun size={16} /> : <Moon size={16} />}</IconWrap>

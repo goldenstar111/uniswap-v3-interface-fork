@@ -2,7 +2,6 @@ import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { Connector } from '@web3-react/types'
 import { AutoColumn } from 'components/Column'
-import { AutoRow } from 'components/Row'
 import { networkConnection } from 'connection'
 import { getConnection, getConnectionName, getIsCoinbaseWallet, getIsInjected, getIsMetaMask } from 'connection/utils'
 import usePrevious from 'hooks/usePrevious'
@@ -19,8 +18,6 @@ import { isMobile } from 'utils/userAgent'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
 import { useModalIsOpen, useToggleWalletModal } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/reducer'
-import { ExternalLink, ThemedText } from '../../theme'
-import AccountDetails from '../AccountDetails'
 import Modal from '../Modal'
 import { CoinbaseWalletOption, OpenCoinbaseWalletOption } from './CoinbaseWalletOption'
 import { InjectedOption, InstallMetaMaskOption, MetaMaskOption } from './InjectedOption'
@@ -115,15 +112,7 @@ const WALLET_VIEWS = {
   PENDING: 'pending',
 }
 
-export default function WalletModal({
-  pendingTransactions,
-  confirmedTransactions,
-  ENSName,
-}: {
-  pendingTransactions: string[] // hashes of pending
-  confirmedTransactions: string[] // hashes of confirmed
-  ENSName?: string
-}) {
+export default function WalletModal() {
   const dispatch = useAppDispatch()
   const { connector, account, chainId } = useWeb3React()
   const previousAccount = usePrevious(account)
@@ -244,18 +233,6 @@ export default function WalletModal({
   }
 
   function getModalContent() {
-    if (walletView === WALLET_VIEWS.ACCOUNT) {
-      return (
-        <AccountDetails
-          toggleWalletModal={toggleWalletModal}
-          pendingTransactions={pendingTransactions}
-          confirmedTransactions={confirmedTransactions}
-          ENSName={ENSName}
-          openOptions={openOptions}
-        />
-      )
-    }
-
     let headerRow
     if (walletView === WALLET_VIEWS.PENDING || walletView === WALLET_VIEWS.ACCOUNT || !!account) {
       headerRow = (
@@ -272,25 +249,6 @@ export default function WalletModal({
             <Trans>Connect a wallet</Trans>
           </HoverText>
         </HeaderRow>
-      )
-    }
-
-    function getTermsOfService(walletView: string) {
-      if (walletView === WALLET_VIEWS.PENDING) return null
-
-      const content = (
-        <Trans>
-          By connecting a wallet, you agree to Uniswap Labs’{' '}
-          <ExternalLink href="https://uniswap.org/terms-of-service/">Terms of Service</ExternalLink> and consent to its{' '}
-          <ExternalLink href="https://uniswap.org/privacy-policy">Privacy Policy</ExternalLink>.
-        </Trans>
-      )
-      return (
-        <AutoRow style={{ flexWrap: 'nowrap', padding: '4px 16px' }}>
-          <ThemedText.BodySecondary fontSize={16} lineHeight="24px">
-            {content}
-          </ThemedText.BodySecondary>
-        </AutoRow>
       )
     }
 
@@ -311,7 +269,6 @@ export default function WalletModal({
               />
             )}
             {walletView !== WALLET_VIEWS.PENDING && <OptionGrid data-testid="option-grid">{getOptions()}</OptionGrid>}
-            {!pendingError && getTermsOfService(walletView)}
           </AutoColumn>
         </ContentWrapper>
       </UpperSection>

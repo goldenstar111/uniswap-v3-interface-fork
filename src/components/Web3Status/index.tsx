@@ -4,8 +4,8 @@ import { IconWrapper } from '../Identicon/StatusIcon'
 import WalletDropdown from 'components/WalletDropdown'
 import { getConnection } from 'connection/utils'
 import { darken } from 'polished'
-import { useMemo, useRef } from 'react'
-import { AlertTriangle, ChevronDown, ChevronUp } from 'react-feather'
+import { useRef } from 'react'
+import { ChevronDown, ChevronUp } from 'react-feather'
 import { useAppSelector } from 'state/hooks'
 import { useDerivedSwapInfo } from 'state/swap/hooks'
 import styled, { useTheme } from 'styled-components/macro'
@@ -20,13 +20,9 @@ import {
   useToggleWalletModal,
 } from '../../state/application/hooks'
 import { ApplicationModal } from '../../state/application/reducer'
-import { isTransactionRecent, useAllTransactions } from '../../state/transactions/hooks'
-import { TransactionDetails } from '../../state/transactions/types'
 import { shortenAddress } from '../../utils'
 import { ButtonSecondary } from '../Button'
 import StatusIcon from '../Identicon/StatusIcon'
-import Loader from '../Loader'
-import { RowBetween } from '../Row'
 import WalletModal from '../WalletModal'
 
 // https://stackoverflow.com/a/31617326
@@ -139,18 +135,6 @@ const Text = styled.p`
   font-weight: 500;
 `
 
-const NetworkIcon = styled(AlertTriangle)`
-  margin-left: 0.25rem;
-  margin-right: 0.5rem;
-  width: 16px;
-  height: 16px;
-`
-
-// we want the latest one to come first, so return negative if a is after b
-function newTransactionsFirst(a: TransactionDetails, b: TransactionDetails) {
-  return b.addedTime - a.addedTime
-}
-
 const VerticalDivider = styled.div`
   height: 20px;
   margin: 0px;
@@ -204,28 +188,13 @@ function Web3StatusInner() {
 
   const error = useAppSelector((state) => state.connection.errorByConnectionType[getConnection(connector).type])
 
-  const allTransactions = useAllTransactions()
-
-  const sortedRecentTransactions = useMemo(() => {
-    const txs = Object.values(allTransactions)
-    return txs.filter(isTransactionRecent).sort(newTransactionsFirst)
-  }, [allTransactions])
-
-  const pending = sortedRecentTransactions.filter((tx) => !tx.receipt).map((tx) => tx.hash)
-
-  const hasPendingTransactions = !!pending.length
   const toggleWallet = toggleWalletDropdown
 
   if (!chainId) {
     return null
   } else if (error) {
     return (
-      <Web3StatusError onClick={toggleWallet}>
-        <NetworkIcon />
-        <Text>
-          <Trans>Error</Trans>
-        </Text>
-      </Web3StatusError>
+      <Web3StatusError onClick={toggleWallet} />
     )
   } else if (account) {
     const chevronProps = {
@@ -237,23 +206,14 @@ function Web3StatusInner() {
       <Web3StatusConnected
         data-testid="web3-status-connected"
         onClick={toggleWallet}
-        pending={hasPendingTransactions}
-        isClaimAvailable={true}
+        pending={false}
+        isClaimAvailable={false}
       >
-        {!hasPendingTransactions && <StatusIcon size={24} connectionType={connectionType} />}
-        {hasPendingTransactions ? (
-          <RowBetween>
-            <Text>
-              <Trans>{pending?.length} Pending</Trans>
-            </Text>{' '}
-            <Loader stroke="white" />
-          </RowBetween>
-        ) : (
-          <AddressAndChevronContainer>
-            <Text>{ENSName || shortenAddress(account)}</Text>
-            {walletIsOpen ? <ChevronUp {...chevronProps} /> : <ChevronDown {...chevronProps} />}
-          </AddressAndChevronContainer>
-        )}
+        <StatusIcon size={24} connectionType={connectionType} />
+        <AddressAndChevronContainer>
+          <Text>{ENSName || shortenAddress(account)}</Text>
+          {walletIsOpen ? <ChevronUp {...chevronProps} /> : <ChevronDown {...chevronProps} />}
+        </AddressAndChevronContainer>
       </Web3StatusConnected>
     )
   } else {
@@ -279,9 +239,6 @@ function Web3StatusInner() {
 }
 
 export default function Web3Status() {
-  const { ENSName } = useWeb3React()
-
-  const allTransactions = useAllTransactions()
   const ref = useRef<HTMLDivElement>(null)
   const walletRef = useRef<HTMLDivElement>(null)
   const closeModal = useCloseModal(ApplicationModal.WALLET_DROPDOWN)
@@ -289,18 +246,10 @@ export default function Web3Status() {
 
   useOnClickOutside(ref, isOpen ? closeModal : undefined, [walletRef])
 
-  const sortedRecentTransactions = useMemo(() => {
-    const txs = Object.values(allTransactions)
-    return txs.filter(isTransactionRecent).sort(newTransactionsFirst)
-  }, [allTransactions])
-
-  const pending = sortedRecentTransactions.filter((tx) => !tx.receipt).map((tx) => tx.hash)
-  const confirmed = sortedRecentTransactions.filter((tx) => tx.receipt).map((tx) => tx.hash)
-
   return (
     <span ref={ref}>
       <Web3StatusInner />
-      <WalletModal ENSName={ENSName ?? undefined} pendingTransactions={pending} confirmedTransactions={confirmed} />
+      <WalletModal />
       <span ref={walletRef}>
         <WalletDropdown />
       </span>

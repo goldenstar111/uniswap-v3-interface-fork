@@ -1,5 +1,4 @@
 import { Trans } from '@lingui/macro'
-import { CurrencyAmount, Token } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { getConnection } from 'connection/utils'
 import { getChainInfoOrDefault } from 'constants/chainInfo'
@@ -9,39 +8,15 @@ import useStablecoinPrice from 'hooks/useStablecoinPrice'
 import useNativeCurrency from 'lib/hooks/useNativeCurrency'
 import { useCallback, useMemo } from 'react'
 import { Copy, ExternalLink, Power } from 'react-feather'
-import { useNavigate } from 'react-router-dom'
 import { Text } from 'rebass'
 import { useCurrencyBalanceString } from 'state/connection/hooks'
 import { useAppDispatch } from 'state/hooks'
 import { updateSelectedWallet } from 'state/user/reducer'
-import styled, { css } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 import { ThemedText } from 'theme'
 
-import { useCloseModal, useToggleModal } from '../../state/application/hooks'
-import { ApplicationModal } from '../../state/application/reducer'
-import { useUserHasAvailableClaim, useUserUnclaimedAmount } from '../../state/claim/hooks'
-import { ButtonEmphasis, ButtonSize, ThemeButton } from '../Button'
 import StatusIcon from '../Identicon/StatusIcon'
 import IconButton, { IconHoverText } from './IconButton'
-
-const WalletButton = styled(ThemeButton)`
-  border-radius: 12px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-top: 12px;
-  color: white;
-  border: none;
-`
-
-const ProfileButton = styled(WalletButton)`
-  background: ${({ theme }) => theme.accentAction};
-  transition: ${({ theme }) => theme.transition.duration.fast} ${({ theme }) => theme.transition.timing.ease}
-    background-color;
-`
-
-const UNIButton = styled(WalletButton)`
-  background: linear-gradient(to right, #9139b0 0%, #4261d6 100%);
-`
 
 const Column = styled.div`
   display: flex;
@@ -54,7 +29,7 @@ const IconContainer = styled.div`
   align-items: center;
   & > a,
   & > button {
-    margin-right: 8px;
+    margin-right: 2px;
   }
 
   & > button:last-child {
@@ -82,29 +57,6 @@ const StatusWrapper = styled.div`
   width: 70%;
 `
 
-const TruncatedTextStyle = css`
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-`
-
-const AccountNamesWrapper = styled.div`
-  ${TruncatedTextStyle}
-  margin-right: 8px;
-`
-
-const ENSNameContainer = styled(ThemedText.SubHeader)`
-  ${TruncatedTextStyle}
-  color: ${({ theme }) => theme.textPrimary};
-  margin-top: 2.5px;
-`
-
-const AccountContainer = styled(ThemedText.BodySmall)`
-  ${TruncatedTextStyle}
-  color: ${({ theme }) => theme.textSecondary};
-  margin-top: 2.5px;
-`
-
 const BalanceWrapper = styled.div`
   padding: 16px 0;
 `
@@ -120,7 +72,7 @@ const AuthenticatedHeaderWrapper = styled.div`
 `
 
 const AuthenticatedHeader = () => {
-  const { account, chainId, connector, ENSName } = useWeb3React()
+  const { account, chainId, connector } = useWeb3React()
   const [isCopied, setCopied] = useCopyClipboard()
   const copy = useCallback(() => {
     setCopied(account || '')
@@ -131,16 +83,10 @@ const AuthenticatedHeader = () => {
     nativeCurrency: { symbol: nativeCurrencySymbol },
     explorer,
   } = getChainInfoOrDefault(chainId ? chainId : SupportedChainId.MAINNET)
-  const navigate = useNavigate()
-  const closeModal = useCloseModal(ApplicationModal.WALLET_DROPDOWN)
 
-  const unclaimedAmount: CurrencyAmount<Token> | undefined = useUserUnclaimedAmount(account)
-  const isUnclaimed = useUserHasAvailableClaim(account)
   const connectionType = getConnection(connector).type
   const nativeCurrency = useNativeCurrency()
   const nativeCurrencyPrice = useStablecoinPrice(nativeCurrency ?? undefined) || 0
-  const openClaimModal = useToggleModal(ApplicationModal.ADDRESS_CLAIM)
-  const openNftModal = useToggleModal(ApplicationModal.UNISWAP_NFT_AIRDROP_CLAIM)
   const disconnect = useCallback(() => {
     if (connector && connector.deactivate) {
       connector.deactivate()
@@ -155,9 +101,10 @@ const AuthenticatedHeader = () => {
     return price * balance
   }, [balanceString, nativeCurrencyPrice])
 
-  const navigateToProfile = () => {
-    navigate('/pool')
-    closeModal()
+  const beautify = (_addr: any) => {
+    if (_addr.length > 14)
+      return _addr.substring(0, 6) + "..." + _addr.substring(_addr.length - 4,)
+    else return _addr
   }
 
   return (
@@ -166,14 +113,7 @@ const AuthenticatedHeader = () => {
         <StatusWrapper>
           <FlexContainer>
             <StatusIcon connectionType={connectionType} size={24} />
-            {ENSName ? (
-              <AccountNamesWrapper>
-                <ENSNameContainer>{ENSName}</ENSNameContainer>
-                <AccountContainer>{account}</AccountContainer>
-              </AccountNamesWrapper>
-            ) : (
-              <ThemedText.SubHeader marginTop="2.5px">{account}</ThemedText.SubHeader>
-            )}
+            <ThemedText.SubHeader marginTop="2.5px">{beautify(account)}</ThemedText.SubHeader>
           </FlexContainer>
         </StatusWrapper>
         <IconContainer>
@@ -195,14 +135,6 @@ const AuthenticatedHeader = () => {
           </Text>
           <USDText>${amountUSD.toFixed(2)} USD</USDText>
         </BalanceWrapper>
-        <ProfileButton onClick={navigateToProfile} size={ButtonSize.medium} emphasis={ButtonEmphasis.medium}>
-          <Trans>Enter Pool</Trans>
-        </ProfileButton>
-        {isUnclaimed && (
-          <UNIButton onClick={openClaimModal} size={ButtonSize.medium} emphasis={ButtonEmphasis.medium}>
-            <Trans>Claim</Trans> {unclaimedAmount?.toFixed(0, { groupSeparator: ',' } ?? '-')} <Trans>reward</Trans>
-          </UNIButton>
-        )}
       </Column>
     </AuthenticatedHeaderWrapper>
   )
