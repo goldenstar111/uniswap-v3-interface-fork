@@ -2,7 +2,6 @@ import { Trans } from '@lingui/macro'
 import { Currency } from '@uniswap/sdk-core'
 import { FeeAmount } from '@uniswap/v3-sdk'
 import { useWeb3React } from '@web3-react/core'
-import { sendEvent } from 'components/analytics'
 import { ButtonGray } from 'components/Button'
 import Card from 'components/Card'
 import { AutoColumn } from 'components/Column'
@@ -33,7 +32,7 @@ const pulse = (color: string) => keyframes`
     box-shadow: 0 0 0 0 ${color};
   }
 `
-const FocusedOutlineCard = styled(Card)<{ pulsing: boolean }>`
+const FocusedOutlineCard = styled(Card) <{ pulsing: boolean }>`
   border: 1px solid ${({ theme }) => theme.deprecated_bg2};
   animation: ${({ pulsing, theme }) => pulsing && pulse(theme.deprecated_primary1)} 0.6s linear;
   align-self: center;
@@ -101,10 +100,6 @@ export default function FeeSelector({
 
   const handleFeePoolSelectWithEvent = useCallback(
     (fee: FeeAmount) => {
-      sendEvent({
-        category: 'FeePoolSelect',
-        action: 'Manual',
-      })
       handleFeePoolSelect(fee)
     },
     [handleFeePoolSelect]
@@ -122,10 +117,6 @@ export default function FeeSelector({
       setShowOptions(false)
 
       recommended.current = true
-      sendEvent({
-        category: 'FeePoolSelect',
-        action: ' Recommended',
-      })
 
       handleFeePoolSelect(largestUsageFeeTier)
     }

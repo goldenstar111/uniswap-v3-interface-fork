@@ -4,7 +4,6 @@ import { Trace } from '@uniswap/analytics'
 import { EventName, ModalName } from '@uniswap/analytics-events'
 import { Currency, Token } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import { sendEvent } from 'components/analytics'
 import useDebounce from 'hooks/useDebounce'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import useToggle from 'hooks/useToggle'
@@ -71,16 +70,6 @@ export function CurrencySearch({
   const searchToken = useToken(debouncedQuery)
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
 
-  useEffect(() => {
-    if (isAddressSearch) {
-      sendEvent({
-        category: 'Currency Select',
-        action: 'Search by address',
-        label: isAddressSearch,
-      })
-    }
-  }, [isAddressSearch])
-
   const defaultTokens = useAllTokens()
   const filteredTokens: Token[] = useMemo(() => {
     return Object.values(defaultTokens).filter(getTokenFilter(debouncedQuery))
@@ -91,15 +80,15 @@ export function CurrencySearch({
     () =>
       !balancesAreLoading
         ? filteredTokens
-            .filter((token) => {
-              // If there is no query, filter out unselected user-added tokens with no balance.
-              if (!debouncedQuery && token instanceof UserAddedToken) {
-                if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
-                return balances[token.address]?.greaterThan(0)
-              }
-              return true
-            })
-            .sort(tokenComparator.bind(null, balances))
+          .filter((token) => {
+            // If there is no query, filter out unselected user-added tokens with no balance.
+            if (!debouncedQuery && token instanceof UserAddedToken) {
+              if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
+              return balances[token.address]?.greaterThan(0)
+            }
+            return true
+          })
+          .sort(tokenComparator.bind(null, balances))
         : [],
     [balances, balancesAreLoading, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency]
   )

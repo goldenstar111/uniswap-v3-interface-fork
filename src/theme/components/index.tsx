@@ -1,5 +1,4 @@
 import { Trans } from '@lingui/macro'
-import { outboundLink } from 'components/analytics'
 import { MOBILE_MEDIA_BREAKPOINT } from 'components/Tokens/constants'
 import useCopyClipboard from 'hooks/useCopyClipboard'
 import React, {
@@ -29,7 +28,7 @@ import { anonymizeLink } from '../../utils/anonymizeLink'
 
 // TODO: Break this file into a components folder
 
-export const CloseIcon = styled(X)<{ onClick: () => void }>`
+export const CloseIcon = styled(X) <{ onClick: () => void }>`
   color: ${({ theme }) => theme.textSecondary};
   cursor: pointer;
 `
@@ -166,15 +165,11 @@ function handleClickExternalLink(event: React.MouseEvent<HTMLAnchorElement>) {
 
   // don't prevent default, don't redirect if it's a new tab
   if (target === '_blank' || event.ctrlKey || event.metaKey) {
-    outboundLink({ label: anonymizedHref }, () => {
-      console.debug('Fired outbound link event', anonymizedHref)
-    })
+    console.debug('Fired outbound link event', anonymizedHref)
   } else {
     event.preventDefault()
     // send a ReactGA event and then trigger a location change
-    outboundLink({ label: anonymizedHref }, () => {
-      window.location.href = anonymizedHref
-    })
+    window.location.href = anonymizedHref
   }
 }
 
@@ -333,7 +328,7 @@ export function CopyContractAddress({ address }: { address: string }) {
   )
 }
 
-const CopyHelperContainer = styled(LinkStyledButton)<{ clicked: boolean }>`
+const CopyHelperContainer = styled(LinkStyledButton) <{ clicked: boolean }>`
   ${({ clicked }) => !clicked && ClickableStyle};
   color: ${({ color, theme }) => color || theme.accentAction};
   padding: 0;
@@ -445,7 +440,7 @@ export function BackArrow({ to }: { to: string }) {
   )
 }
 
-export const CustomLightSpinner = styled(Spinner)<{ size: string }>`
+export const CustomLightSpinner = styled(Spinner) <{ size: string }>`
   height: ${({ size }) => size};
   width: ${({ size }) => size};
 `

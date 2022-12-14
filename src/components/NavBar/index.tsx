@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import Web3Status from 'components/Web3Status'
 import { chainIdToBackendName } from 'graphql/data/util'
 import { Box } from '../Box'
 import { Row } from '../Flex'
@@ -94,7 +93,6 @@ const Navbar = () => {
           <Box className={styles.middleContainer} alignItems="flex-start" />
           <Box className={styles.rightSideContainer}>
             <Row gap="12">
-              <Web3Status />
             </Row>
           </Box>
         </Box>

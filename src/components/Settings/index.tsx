@@ -2,7 +2,6 @@
 import { t, Trans } from '@lingui/macro'
 import { Percent } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
-import { sendEvent } from 'components/analytics'
 import { isSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import { useRef, useState } from 'react'
 import { Settings, X } from 'react-feather'
@@ -17,7 +16,6 @@ import { ThemedText } from '../../theme'
 import { ButtonError } from '../Button'
 import { AutoColumn } from '../Column'
 import Modal from '../Modal'
-import QuestionHelper from '../QuestionHelper'
 import { RowBetween, RowFixed } from '../Row'
 import Toggle from '../Toggle'
 import TransactionSettings from '../TransactionSettings'
@@ -211,16 +209,11 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                   <ThemedText.DeprecatedBlack fontWeight={400} fontSize={14} color={theme.deprecated_text2}>
                     <Trans>Auto Router API</Trans>
                   </ThemedText.DeprecatedBlack>
-                  <QuestionHelper text={<Trans>Use the Uniswap Labs API to get faster quotes.</Trans>} />
                 </RowFixed>
                 <Toggle
                   id="toggle-optimized-router-button"
                   isActive={!clientSideRouter}
                   toggle={() => {
-                    sendEvent({
-                      category: 'Routing',
-                      action: clientSideRouter ? 'enable routing API' : 'disable routing API',
-                    })
                     setClientSideRouter(!clientSideRouter)
                   }}
                 />
@@ -231,11 +224,6 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                 <ThemedText.DeprecatedBlack fontWeight={400} fontSize={14} color={theme.deprecated_text2}>
                   <Trans>Expert Mode</Trans>
                 </ThemedText.DeprecatedBlack>
-                <QuestionHelper
-                  text={
-                    <Trans>Allow high price impact trades and skip the confirm screen. Use at your own risk.</Trans>
-                  }
-                />
               </RowFixed>
               <Toggle
                 id="toggle-expert-mode-button"
@@ -243,13 +231,13 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                 toggle={
                   expertMode
                     ? () => {
-                        toggleExpertMode()
-                        setShowConfirmation(false)
-                      }
+                      toggleExpertMode()
+                      setShowConfirmation(false)
+                    }
                     : () => {
-                        toggle()
-                        setShowConfirmation(true)
-                      }
+                      toggle()
+                      setShowConfirmation(true)
+                    }
                 }
               />
             </RowBetween>

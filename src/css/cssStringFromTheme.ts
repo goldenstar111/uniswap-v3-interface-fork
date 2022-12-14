@@ -1,5 +1,5 @@
-import { darkTheme } from 'nft/themes/darkTheme'
-import { lightTheme } from 'nft/themes/lightTheme'
+import { darkTheme } from '../theme/darkTheme'
+import { lightTheme } from '../theme/lightTheme'
 
 import { cssObjectFromTheme } from './cssObjectFromTheme'
 import { Theme } from './sprinkles.css'
