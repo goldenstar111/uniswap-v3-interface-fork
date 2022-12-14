@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro'
 import { ReactNode } from 'react'
 import { NavLink, NavLinkProps, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
-
+import Web3Status from '../Web3Status'
 import { Box } from '../Box'
 import { Row } from '../Flex'
 import { UniIcon } from '../icons'
@@ -88,7 +88,9 @@ const Navbar = () => {
           </Box>
           <Box className={styles.middleContainer} alignItems="flex-start" />
           <Box className={styles.rightSideContainer}>
-            <Row gap="12"></Row>
+            <Row gap="12">
+              <Web3Status />
+            </Row>
           </Box>
         </Box>
       </nav>
