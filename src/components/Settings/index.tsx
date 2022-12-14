@@ -231,13 +231,13 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                 toggle={
                   expertMode
                     ? () => {
-                      toggleExpertMode()
-                      setShowConfirmation(false)
-                    }
+                        toggleExpertMode()
+                        setShowConfirmation(false)
+                      }
                     : () => {
-                      toggle()
-                      setShowConfirmation(true)
-                    }
+                        toggle()
+                        setShowConfirmation(true)
+                      }
                 }
               />
             </RowBetween>

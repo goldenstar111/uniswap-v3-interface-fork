@@ -66,7 +66,7 @@ export function useIsTransactionConfirmed(transactionHash?: string): boolean {
  * Returns whether a transaction happened in the last day (86400 seconds * 1000 milliseconds / second)
  * @param tx to check for recency
  */
-export function isTransactionRecent(tx: TransactionDetails): boolean {
+function isTransactionRecent(tx: TransactionDetails): boolean {
   return new Date().getTime() - tx.addedTime < 86_400_000
 }
 

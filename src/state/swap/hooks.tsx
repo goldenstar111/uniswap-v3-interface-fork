@@ -5,68 +5,22 @@ import useAutoSlippageTolerance from 'hooks/useAutoSlippageTolerance'
 import { useBestTrade } from 'hooks/useBestTrade'
 import tryParseCurrencyAmount from 'lib/utils/tryParseCurrencyAmount'
 import { ParsedQs } from 'qs'
-import { ReactNode, useCallback, useEffect, useMemo } from 'react'
-import { useAppDispatch, useAppSelector } from 'state/hooks'
+import { ReactNode, useMemo } from 'react'
+import { useAppSelector } from 'state/hooks'
 import { InterfaceTrade, TradeState } from 'state/routing/types'
 import { useUserSlippageToleranceWithDefault } from 'state/user/hooks'
 
 import { TOKEN_SHORTHANDS } from '../../constants/tokens'
 import { useCurrency } from '../../hooks/Tokens'
 import useENS from '../../hooks/useENS'
-import useParsedQueryString from '../../hooks/useParsedQueryString'
 import { isAddress } from '../../utils'
 import { useCurrencyBalances } from '../connection/hooks'
 import { AppState } from '../index'
-import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
+import { Field } from './actions'
 import { SwapState } from './reducer'
 
-export function useSwapState(): AppState['swap'] {
+function useSwapState(): AppState['swap'] {
   return useAppSelector((state) => state.swap)
-}
-
-export function useSwapActionHandlers(): {
-  onCurrencySelection: (field: Field, currency: Currency) => void
-  onSwitchTokens: () => void
-  onUserInput: (field: Field, typedValue: string) => void
-  onChangeRecipient: (recipient: string | null) => void
-} {
-  const dispatch = useAppDispatch()
-  const onCurrencySelection = useCallback(
-    (field: Field, currency: Currency) => {
-      dispatch(
-        selectCurrency({
-          field,
-          currencyId: currency.isToken ? currency.address : currency.isNative ? 'ETH' : '',
-        })
-      )
-    },
-    [dispatch]
-  )
-
-  const onSwitchTokens = useCallback(() => {
-    dispatch(switchCurrencies())
-  }, [dispatch])
-
-  const onUserInput = useCallback(
-    (field: Field, typedValue: string) => {
-      dispatch(typeInput({ field, typedValue }))
-    },
-    [dispatch]
-  )
-
-  const onChangeRecipient = useCallback(
-    (recipient: string | null) => {
-      dispatch(setRecipient({ recipient }))
-    },
-    [dispatch]
-  )
-
-  return {
-    onSwitchTokens,
-    onCurrencySelection,
-    onUserInput,
-    onChangeRecipient,
-  }
 }
 
 const BAD_RECIPIENT_ADDRESSES: { [address: string]: true } = {
@@ -243,35 +197,4 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
     independentField,
     recipient,
   }
-}
-
-// updates the swap state to use the defaults for a given network
-export function useDefaultsFromURLSearch(): SwapState {
-  const { chainId } = useWeb3React()
-  const dispatch = useAppDispatch()
-  const parsedQs = useParsedQueryString()
-
-  const parsedSwapState = useMemo(() => {
-    return queryParametersToSwapState(parsedQs)
-  }, [parsedQs])
-
-  useEffect(() => {
-    if (!chainId) return
-    const inputCurrencyId = parsedSwapState[Field.INPUT].currencyId ?? undefined
-    const outputCurrencyId = parsedSwapState[Field.OUTPUT].currencyId ?? undefined
-
-    dispatch(
-      replaceSwapState({
-        typedValue: parsedSwapState.typedValue,
-        field: parsedSwapState.independentField,
-        inputCurrencyId,
-        outputCurrencyId,
-        recipient: parsedSwapState.recipient,
-      })
-    )
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, chainId])
-
-  return parsedSwapState
 }

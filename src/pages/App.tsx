@@ -1,6 +1,5 @@
 import Loader from 'components/Loader'
 import { useFeatureFlagsIsLoaded } from 'featureFlags'
-import ApeModeQueryParamReader from 'hooks/useApeModeQueryParamReader'
 import { Suspense, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import styled from 'styled-components/macro'
@@ -13,8 +12,8 @@ import AddLiquidity from './AddLiquidity'
 import { RedirectDuplicateTokenIds } from './AddLiquidity/redirects'
 import Pool from './Pool'
 import { PositionPage } from './Pool/PositionPage'
-import RemoveLiquidityV3 from './RemoveLiquidity/V3'
 import { RedirectPathToPoolOnly } from './Pool/redirects'
+import RemoveLiquidityV3 from './RemoveLiquidity/V3'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -73,7 +72,6 @@ export default function App() {
   return (
     <>
       <DarkModeQueryParamReader />
-      <ApeModeQueryParamReader />
       <AppWrapper>
         <HeaderWrapper transparent={isHeaderTransparent}>
           <NavBar />

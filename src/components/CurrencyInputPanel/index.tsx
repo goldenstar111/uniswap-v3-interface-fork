@@ -61,7 +61,7 @@ const Container = styled.div<{ hideInput: boolean; disabled: boolean }>`
   `}
 `
 
-const CurrencySelect = styled(ButtonGray) <{
+const CurrencySelect = styled(ButtonGray)<{
   visible: boolean
   selected: boolean
   hideInput?: boolean
@@ -88,7 +88,7 @@ const CurrencySelect = styled(ButtonGray) <{
   :focus,
   :hover {
     background-color: ${({ selected, theme }) =>
-    selected ? theme.deprecated_bg3 : darken(0.05, theme.deprecated_primary1)};
+      selected ? theme.deprecated_bg3 : darken(0.05, theme.deprecated_primary1)};
   }
   visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
 `
@@ -126,7 +126,7 @@ const Aligner = styled.span`
   width: 100%;
 `
 
-const StyledDropDown = styled(DropDown) <{ selected: boolean }>`
+const StyledDropDown = styled(DropDown)<{ selected: boolean }>`
   margin: 0 0.25rem 0 0.35rem;
   height: 35%;
 
@@ -141,30 +141,7 @@ const StyledTokenName = styled.span<{ active?: boolean }>`
   font-size: 20px;
 `
 
-const StyledBalanceMax = styled.button<{ disabled?: boolean }>`
-  background-color: transparent;
-  background-color: ${({ theme }) => theme.deprecated_primary5};
-  border: none;
-  border-radius: 12px;
-  color: ${({ theme }) => theme.deprecated_primary1};
-  cursor: pointer;
-  font-size: 11px;
-  font-weight: 500;
-  margin-left: 0.25rem;
-  opacity: ${({ disabled }) => (!disabled ? 1 : 0.4)};
-  padding: 4px 6px;
-  pointer-events: ${({ disabled }) => (!disabled ? 'initial' : 'none')};
-
-  :hover {
-    opacity: ${({ disabled }) => (!disabled ? 0.8 : 0.4)};
-  }
-
-  :focus {
-    outline: none;
-  }
-`
-
-const StyledNumericalInput = styled(NumericalInput) <{ $loading: boolean }>`
+const StyledNumericalInput = styled(NumericalInput)<{ $loading: boolean }>`
   ${loadingOpacityMixin};
   text-align: left;
 `
@@ -278,8 +255,8 @@ export default function CurrencyInputPanel({
                   <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
                     {(currency && currency.symbol && currency.symbol.length > 20
                       ? currency.symbol.slice(0, 4) +
-                      '...' +
-                      currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
+                        '...' +
+                        currency.symbol.slice(currency.symbol.length - 5, currency.symbol.length)
                       : currency?.symbol) || <Trans>Select a token</Trans>}
                   </StyledTokenName>
                 )}

@@ -4,7 +4,6 @@ import CurrencyLogo from 'components/Logo/CurrencyLogo'
 import { AutoRow } from 'components/Row'
 import { COMMON_BASES } from 'constants/routing'
 import { useTokenInfoFromActiveList } from 'hooks/useTokenInfoFromActiveList'
-import { getTokenAddress } from 'lib/utils/analytics'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
 import { currencyId } from 'utils/currencyId'
@@ -32,24 +31,10 @@ const BaseWrapper = styled.div<{ disable?: boolean }>`
   background-color: ${({ theme, disable }) => disable && theme.accentActionSoft};
 `
 
-const formatAnalyticsEventProperties = (currency: Currency, searchQuery: string, isAddressSearch: string | false) => ({
-  token_symbol: currency?.symbol,
-  token_chain_id: currency?.chainId,
-  token_address: getTokenAddress(currency),
-  is_suggested_token: true,
-  is_selected_from_list: false,
-  is_imported_by_user: false,
-  ...(isAddressSearch === false
-    ? { search_token_symbol_input: searchQuery }
-    : { search_token_address_input: isAddressSearch }),
-})
-
 export default function CommonBases({
   chainId,
   onSelect,
   selectedCurrency,
-  searchQuery,
-  isAddressSearch,
 }: {
   chainId?: number
   selectedCurrency?: Currency | null

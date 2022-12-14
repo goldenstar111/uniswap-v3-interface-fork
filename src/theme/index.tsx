@@ -1,7 +1,7 @@
-import { rootCssString } from '../css/cssStringFromTheme'
 import React, { useMemo } from 'react'
 import { createGlobalStyle, css, ThemeProvider as StyledComponentsThemeProvider } from 'styled-components/macro'
 
+import { rootCssString } from '../css/cssStringFromTheme'
 import { useIsDarkMode } from '../state/user/hooks'
 import { darkTheme, lightTheme } from './colors'
 import { darkDeprecatedTheme, lightDeprecatedTheme } from './deprecatedColors'
@@ -17,7 +17,7 @@ export const MEDIA_WIDTHS = {
   deprecated_upToLarge: 1280,
 }
 
-export const BREAKPOINTS = {
+const BREAKPOINTS = {
   xs: 396,
   sm: 640,
   md: 768,
@@ -56,7 +56,7 @@ const fonts = {
 const deprecated_mediaWidthTemplates: { [width in keyof typeof MEDIA_WIDTHS]: typeof css } = Object.keys(
   MEDIA_WIDTHS
 ).reduce((accumulator, size) => {
-  ; (accumulator as any)[size] = (a: any, b: any, c: any) => css`
+  ;(accumulator as any)[size] = (a: any, b: any, c: any) => css`
     @media (max-width: ${(MEDIA_WIDTHS as any)[size]}px) {
       ${css(a, b, c)}
     }

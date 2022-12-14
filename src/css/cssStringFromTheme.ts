@@ -1,6 +1,5 @@
 import { darkTheme } from '../theme/darkTheme'
 import { lightTheme } from '../theme/lightTheme'
-
 import { cssObjectFromTheme } from './cssObjectFromTheme'
 import { Theme } from './sprinkles.css'
 

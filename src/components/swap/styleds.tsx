@@ -3,66 +3,9 @@ import { transparentize } from 'polished'
 import { ReactNode } from 'react'
 import { AlertTriangle } from 'react-feather'
 import { Text } from 'rebass'
-import styled, { css } from 'styled-components/macro'
-import { Z_INDEX } from 'theme/zIndex'
+import styled from 'styled-components/macro'
 
 import { AutoColumn } from '../Column'
-
-export const PageWrapper = styled.div`
-  padding: 68px 8px 0px;
-  max-width: 480px;
-  width: 100%;
-
-  @media only screen and (max-width: ${({ theme }) => `${theme.breakpoint.md}px`}) {
-    padding-top: 48px;
-  }
-
-  @media only screen and (max-width: ${({ theme }) => `${theme.breakpoint.sm}px`}) {
-    padding-top: 20px;
-  }
-`
-
-// Mostly copied from `AppBody` but it was getting too hard to maintain backwards compatibility.
-export const SwapWrapper = styled.main<{ margin?: string; maxWidth?: string; open: boolean }>`
-  position: relative;
-  background: ${({ theme }) => theme.backgroundSurface};
-  border-radius: 16px;
-  border: 1px solid ${({ theme }) => theme.backgroundOutline};
-  padding: 8px;
-  z-index: ${Z_INDEX.deprecated_content};
-  cursor: ${({ open }) => open && 'pointer'};
-  transition: transform 250ms ease;
-
-  &:hover {
-    border: 1px solid ${({ theme, open }) => (open ? theme.accentAction : theme.backgroundOutline)};
-    transform: ${({ open }) => (open ? `translateY(-4px)` : `none`)};
-  }
-`
-
-export const ArrowWrapper = styled.div<{ clickable: boolean }>`
-  border-radius: 12px;
-  height: 40px;
-  width: 40px;
-  position: relative;
-  margin-top: -18px;
-  margin-bottom: -18px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: ${({ theme }) => theme.backgroundInteractive};
-  border: 4px solid;
-  border-color: ${({ theme }) => theme.backgroundSurface};
-
-  z-index: 2;
-  ${({ clickable }) =>
-    clickable
-      ? css`
-          :hover {
-            cursor: pointer;
-            opacity: 0.8;
-          }
-        `
-      : null}
-`
 
 export const ErrorText = styled(Text)<{ severity?: 0 | 1 | 2 | 3 | 4 }>`
   color: ${({ theme, severity }) =>

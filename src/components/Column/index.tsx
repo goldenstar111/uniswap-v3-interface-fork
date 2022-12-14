@@ -2,7 +2,7 @@ import styled, { DefaultTheme } from 'styled-components/macro'
 
 type Gap = keyof DefaultTheme['grids']
 
-export const Column = styled.div<{
+const Column = styled.div<{
   gap?: Gap
 }>`
   display: flex;

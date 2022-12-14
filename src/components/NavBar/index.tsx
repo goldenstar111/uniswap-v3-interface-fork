@@ -1,13 +1,11 @@
 import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import { chainIdToBackendName } from 'graphql/data/util'
-import { Box } from '../Box'
-import { Row } from '../Flex'
-import { UniIcon } from '../icons'
 import { ReactNode } from 'react'
 import { NavLink, NavLinkProps, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
 
+import { Box } from '../Box'
+import { Row } from '../Flex'
+import { UniIcon } from '../icons'
 import * as styles from './style.css'
 
 const MobileBottomBar = styled.div`
@@ -49,8 +47,6 @@ const MenuItem = ({ href, id, isActive, children }: MenuItemProps) => {
 
 const PageTabs = () => {
   const { pathname } = useLocation()
-  const { chainId: connectedChainId } = useWeb3React()
-  const chainName = chainIdToBackendName(connectedChainId)
 
   const isPoolActive =
     pathname.startsWith('/pool') ||
@@ -92,8 +88,7 @@ const Navbar = () => {
           </Box>
           <Box className={styles.middleContainer} alignItems="flex-start" />
           <Box className={styles.rightSideContainer}>
-            <Row gap="12">
-            </Row>
+            <Row gap="12"></Row>
           </Box>
         </Box>
       </nav>

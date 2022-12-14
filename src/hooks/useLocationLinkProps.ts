@@ -25,6 +25,7 @@ export function useLocationLinkProps(locale: SupportedLocale | null): {
               search: stringify({ ...qs, lng: locale }),
             },
             onClick: () => {
+              console.log('')
             },
           },
     [location, qs, activeLocale, locale]
