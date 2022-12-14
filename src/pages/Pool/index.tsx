@@ -19,7 +19,6 @@ import { HideSmall, ThemedText } from 'theme'
 import { PositionDetails } from 'types/position'
 
 import { V2_FACTORY_ADDRESSES } from '../../constants/addresses'
-// import CTACards from './CTACards'
 import { LoadingRows } from './styleds'
 
 const PageWrapper = styled(AutoColumn)`
@@ -335,9 +334,7 @@ export default function Pool() {
                   </ErrorContainer>
                 )}
               </MainContentWrapper>
-              <HideSmall>
-                {/* <CTACards /> */}
-              </HideSmall>
+              <HideSmall></HideSmall>
             </AutoColumn>
           </AutoColumn>
         </PageWrapper>

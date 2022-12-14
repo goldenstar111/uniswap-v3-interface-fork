@@ -2172,7 +2172,7 @@ msgid "View accrued fees and analytics<0>↗</0>"
 msgstr "Felhalmozott díjak és elemzések megtekintése<0></0>"
 
 #: src/components/WalletDropdown/AuthenticatedHeader.tsx
-msgid "View and sell NFTs"
+msgid "Enter Pool"
 msgstr "NFT-k megtekintése és eladása"
 
 #: src/components/NavBar/MenuDropdown.tsx

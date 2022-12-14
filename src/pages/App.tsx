@@ -3,11 +3,7 @@ import { CustomUserProperties, EventName, getBrowser, PageName } from '@uniswap/
 import Loader from 'components/Loader'
 import TopLevelModals from 'components/TopLevelModals'
 import { useFeatureFlagsIsLoaded } from 'featureFlags'
-import { LandingPageVariant, useLandingPageFlag } from 'featureFlags/flags/landingPage'
 import ApeModeQueryParamReader from 'hooks/useApeModeQueryParamReader'
-import { CollectionPageSkeleton } from 'nft/components/collection/CollectionPageSkeleton'
-import { AssetDetailsLoading } from 'nft/components/details/AssetDetailsLoading'
-import { ProfilePageLoadingSkeleton } from 'nft/components/profile/view/ProfilePageLoadingSkeleton'
 import { useBag } from 'nft/hooks'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
@@ -26,13 +22,11 @@ import Polling from '../components/Polling'
 import Popups from '../components/Popups'
 import { useIsExpertMode } from '../state/user/hooks'
 import DarkModeQueryParamReader from '../theme/components/DarkModeQueryParamReader'
-import About from './About'
 import AddLiquidity from './AddLiquidity'
 import { RedirectDuplicateTokenIds } from './AddLiquidity/redirects'
 import { RedirectDuplicateTokenIdsV2 } from './AddLiquidityV2/redirects'
 import Earn from './Earn'
 import Manage from './Earn/Manage'
-import Landing from './Landing'
 import MigrateV2 from './MigrateV2'
 import MigrateV2Pair from './MigrateV2/MigrateV2Pair'
 import Pool from './Pool'
@@ -41,16 +35,10 @@ import PoolV2 from './Pool/v2'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import RemoveLiquidityV3 from './RemoveLiquidity/V3'
-import Swap from './Swap'
-import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly } from './Swap/redirects'
+import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToPoolOnly } from './Pool/redirects'
 import Tokens from './Tokens'
 
 const TokenDetails = lazy(() => import('./TokenDetails'))
-const Vote = lazy(() => import('./Vote'))
-const NftExplore = lazy(() => import('nft/pages/explore'))
-const Collection = lazy(() => import('nft/pages/collection'))
-const Profile = lazy(() => import('nft/pages/profile/profile'))
-const Asset = lazy(() => import('nft/pages/asset/Asset'))
 
 // Placeholder API key. Actual API key used in the proxy server
 const ANALYTICS_DUMMY_KEY = '00000000000000000000000000000000'
@@ -98,22 +86,8 @@ const Marginer = styled.div`
 
 function getCurrentPageFromLocation(locationPathname: string): PageName | undefined {
   switch (true) {
-    case locationPathname.startsWith('/swap'):
-      return PageName.SWAP_PAGE
-    case locationPathname.startsWith('/vote'):
-      return PageName.VOTE_PAGE
     case locationPathname.startsWith('/pool'):
       return PageName.POOL_PAGE
-    case locationPathname.startsWith('/tokens'):
-      return PageName.TOKENS_PAGE
-    case locationPathname.startsWith('/nfts/profile'):
-      return PageName.NFT_PROFILE_PAGE
-    case locationPathname.startsWith('/nfts/asset'):
-      return PageName.NFT_DETAILS_PAGE
-    case locationPathname.startsWith('/nfts/collection'):
-      return PageName.NFT_COLLECTION_PAGE
-    case locationPathname.startsWith('/nfts'):
-      return PageName.NFT_EXPLORE_PAGE
     default:
       return undefined
   }
@@ -181,7 +155,6 @@ export default function App() {
 
   const isHeaderTransparent = !scrolledState && !isBagExpanded
 
-  const landingPageFlag = useLandingPageFlag()
 
   return (
     <ErrorBoundary>
@@ -199,26 +172,13 @@ export default function App() {
             <Suspense fallback={<Loader />}>
               {isLoaded ? (
                 <Routes>
-                  {landingPageFlag === LandingPageVariant.Enabled && <Route path="/" element={<Landing />} />}
                   <Route path="tokens" element={<Tokens />}>
                     <Route path=":chainName" />
                   </Route>
                   <Route path="tokens/:chainName/:tokenAddress" element={<TokenDetails />} />
-                  <Route
-                    path="vote/*"
-                    element={
-                      <Suspense fallback={<LazyLoadSpinner />}>
-                        <Vote />
-                      </Suspense>
-                    }
-                  />
-                  <Route path="create-proposal" element={<Navigate to="/vote/create-proposal" replace />} />
                   <Route path="claim" element={<OpenClaimAddressModalAndRedirectToSwap />} />
                   <Route path="uni" element={<Earn />} />
                   <Route path="uni/:currencyIdA/:currencyIdB" element={<Manage />} />
-
-                  <Route path="send" element={<RedirectPathToSwapOnly />} />
-                  <Route path="swap" element={<Swap />} />
 
                   <Route path="pool/v2/find" element={<PoolFinder />} />
                   <Route path="pool/v2" element={<PoolV2 />} />
@@ -249,51 +209,8 @@ export default function App() {
                   <Route path="migrate/v2" element={<MigrateV2 />} />
                   <Route path="migrate/v2/:address" element={<MigrateV2Pair />} />
 
-                  <Route path="about" element={<About />} />
+                  <Route path="*" element={<RedirectPathToPoolOnly />} />
 
-                  <Route path="*" element={<RedirectPathToSwapOnly />} />
-
-                  <Route
-                    path="/nfts"
-                    element={
-                      // TODO: replace loading state during Apollo migration
-                      <Suspense fallback={null}>
-                        <NftExplore />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/nfts/asset/:contractAddress/:tokenId"
-                    element={
-                      <Suspense fallback={<AssetDetailsLoading />}>
-                        <Asset />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/nfts/profile"
-                    element={
-                      <Suspense fallback={<ProfilePageLoadingSkeleton />}>
-                        <Profile />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/nfts/collection/:contractAddress"
-                    element={
-                      <Suspense fallback={<CollectionPageSkeleton />}>
-                        <Collection />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/nfts/collection/:contractAddress/activity"
-                    element={
-                      <Suspense fallback={<CollectionPageSkeleton />}>
-                        <Collection />
-                      </Suspense>
-                    }
-                  />
                 </Routes>
               ) : (
                 <Loader />

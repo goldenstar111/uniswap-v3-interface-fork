@@ -168,7 +168,7 @@ const AuthenticatedHeader = () => {
     resetSellAssets()
     setSellPageState(ProfilePageStateType.VIEWING)
     clearCollectionFilters()
-    navigate('/nfts/profile')
+    navigate('/pool')
     closeModal()
   }
 
@@ -208,7 +208,7 @@ const AuthenticatedHeader = () => {
           <USDText>${amountUSD.toFixed(2)} USD</USDText>
         </BalanceWrapper>
         <ProfileButton onClick={navigateToProfile} size={ButtonSize.medium} emphasis={ButtonEmphasis.medium}>
-          <Trans>View and sell NFTs</Trans>
+          <Trans>Enter Pool</Trans>
         </ProfileButton>
         {isUnclaimed && (
           <UNIButton onClick={openClaimModal} size={ButtonSize.medium} emphasis={ButtonEmphasis.medium}>

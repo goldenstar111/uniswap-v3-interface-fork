@@ -2171,7 +2171,7 @@ msgid "View accrued fees and analytics<0>↗</0>"
 msgstr "查看已累积手续费和数据分析<0>↗</0>"
 
 #: src/components/WalletDropdown/AuthenticatedHeader.tsx
-msgid "View and sell NFTs"
+msgid "Enter Pool"
 msgstr "查看和出售 NFT"
 
 #: src/components/NavBar/MenuDropdown.tsx

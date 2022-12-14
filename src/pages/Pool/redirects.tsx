@@ -4,10 +4,10 @@ import { useAppDispatch } from 'state/hooks'
 
 import { ApplicationModal, setOpenModal } from '../../state/application/reducer'
 
-// Redirects to swap but only replace the pathname
-export function RedirectPathToSwapOnly() {
+// Redirects to pool but only replace the pathname
+export function RedirectPathToPoolOnly() {
   const location = useLocation()
-  return <Navigate to={{ ...location, pathname: '/swap' }} replace />
+  return <Navigate to={{ ...location, pathname: '/pool' }} replace />
 }
 
 export function OpenClaimAddressModalAndRedirectToSwap() {
@@ -15,5 +15,5 @@ export function OpenClaimAddressModalAndRedirectToSwap() {
   useEffect(() => {
     dispatch(setOpenModal(ApplicationModal.ADDRESS_CLAIM))
   }, [dispatch])
-  return <RedirectPathToSwapOnly />
+  return <RedirectPathToPoolOnly />
 }
