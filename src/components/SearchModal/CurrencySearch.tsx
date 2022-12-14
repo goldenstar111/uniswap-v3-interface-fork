@@ -1,7 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
 import { t, Trans } from '@lingui/macro'
-import { Trace } from '@uniswap/analytics'
-import { EventName, ModalName } from '@uniswap/analytics-events'
 import { Currency, Token } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import useDebounce from 'hooks/useDebounce'
@@ -80,15 +78,15 @@ export function CurrencySearch({
     () =>
       !balancesAreLoading
         ? filteredTokens
-            .filter((token) => {
-              // If there is no query, filter out unselected user-added tokens with no balance.
-              if (!debouncedQuery && token instanceof UserAddedToken) {
-                if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
-                return balances[token.address]?.greaterThan(0)
-              }
-              return true
-            })
-            .sort(tokenComparator.bind(null, balances))
+          .filter((token) => {
+            // If there is no query, filter out unselected user-added tokens with no balance.
+            if (!debouncedQuery && token instanceof UserAddedToken) {
+              if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
+              return balances[token.address]?.greaterThan(0)
+            }
+            return true
+          })
+          .sort(tokenComparator.bind(null, balances))
         : [],
     [balances, balancesAreLoading, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency]
   )
@@ -170,82 +168,80 @@ export function CurrencySearch({
 
   return (
     <ContentWrapper>
-      <Trace name={EventName.TOKEN_SELECTOR_OPENED} modal={ModalName.TOKEN_SELECTOR} shouldLogImpression>
-        <PaddedColumn gap="16px">
-          <RowBetween>
-            <Text fontWeight={500} fontSize={16}>
-              <Trans>Select a token</Trans>
-            </Text>
-            <CloseIcon onClick={onDismiss} />
-          </RowBetween>
-          <Row>
-            <SearchInput
-              type="text"
-              id="token-search-input"
-              placeholder={t`Search name or paste address`}
-              autoComplete="off"
-              value={searchQuery}
-              ref={inputRef as RefObject<HTMLInputElement>}
-              onChange={handleInput}
-              onKeyDown={handleEnter}
-            />
-          </Row>
-          {showCommonBases && (
-            <CommonBases
-              chainId={chainId}
-              onSelect={handleCurrencySelect}
-              selectedCurrency={selectedCurrency}
-              searchQuery={searchQuery}
-              isAddressSearch={isAddressSearch}
-            />
-          )}
-        </PaddedColumn>
-        <Separator />
-        {searchToken && !searchTokenIsAdded ? (
-          <Column style={{ padding: '20px 0', height: '100%' }}>
-            <CurrencyRow
-              currency={searchToken}
-              isSelected={Boolean(searchToken && selectedCurrency && selectedCurrency.equals(searchToken))}
-              onSelect={(hasWarning: boolean) => searchToken && handleCurrencySelect(searchToken, hasWarning)}
-              otherSelected={Boolean(searchToken && otherSelectedCurrency && otherSelectedCurrency.equals(searchToken))}
-              showCurrencyAmount={showCurrencyAmount}
-              eventProperties={formatAnalyticsEventProperties(
-                searchToken,
-                0,
-                [searchToken],
-                searchQuery,
-                isAddressSearch
-              )}
-            />
-          </Column>
-        ) : searchCurrencies?.length > 0 || filteredInactiveTokens?.length > 0 || isLoading ? (
-          <div style={{ flex: '1' }}>
-            <AutoSizer disableWidth>
-              {({ height }) => (
-                <CurrencyList
-                  height={height}
-                  currencies={searchCurrencies}
-                  otherListTokens={filteredInactiveTokens}
-                  onCurrencySelect={handleCurrencySelect}
-                  otherCurrency={otherSelectedCurrency}
-                  selectedCurrency={selectedCurrency}
-                  fixedListRef={fixedList}
-                  showCurrencyAmount={showCurrencyAmount}
-                  isLoading={isLoading}
-                  searchQuery={searchQuery}
-                  isAddressSearch={isAddressSearch}
-                />
-              )}
-            </AutoSizer>
-          </div>
-        ) : (
-          <Column style={{ padding: '20px', height: '100%' }}>
-            <ThemedText.DeprecatedMain color={theme.deprecated_text3} textAlign="center" mb="20px">
-              <Trans>No results found.</Trans>
-            </ThemedText.DeprecatedMain>
-          </Column>
+      <PaddedColumn gap="16px">
+        <RowBetween>
+          <Text fontWeight={500} fontSize={16}>
+            <Trans>Select a token</Trans>
+          </Text>
+          <CloseIcon onClick={onDismiss} />
+        </RowBetween>
+        <Row>
+          <SearchInput
+            type="text"
+            id="token-search-input"
+            placeholder={t`Search name or paste address`}
+            autoComplete="off"
+            value={searchQuery}
+            ref={inputRef as RefObject<HTMLInputElement>}
+            onChange={handleInput}
+            onKeyDown={handleEnter}
+          />
+        </Row>
+        {showCommonBases && (
+          <CommonBases
+            chainId={chainId}
+            onSelect={handleCurrencySelect}
+            selectedCurrency={selectedCurrency}
+            searchQuery={searchQuery}
+            isAddressSearch={isAddressSearch}
+          />
         )}
-      </Trace>
+      </PaddedColumn>
+      <Separator />
+      {searchToken && !searchTokenIsAdded ? (
+        <Column style={{ padding: '20px 0', height: '100%' }}>
+          <CurrencyRow
+            currency={searchToken}
+            isSelected={Boolean(searchToken && selectedCurrency && selectedCurrency.equals(searchToken))}
+            onSelect={(hasWarning: boolean) => searchToken && handleCurrencySelect(searchToken, hasWarning)}
+            otherSelected={Boolean(searchToken && otherSelectedCurrency && otherSelectedCurrency.equals(searchToken))}
+            showCurrencyAmount={showCurrencyAmount}
+            eventProperties={formatAnalyticsEventProperties(
+              searchToken,
+              0,
+              [searchToken],
+              searchQuery,
+              isAddressSearch
+            )}
+          />
+        </Column>
+      ) : searchCurrencies?.length > 0 || filteredInactiveTokens?.length > 0 || isLoading ? (
+        <div style={{ flex: '1' }}>
+          <AutoSizer disableWidth>
+            {({ height }) => (
+              <CurrencyList
+                height={height}
+                currencies={searchCurrencies}
+                otherListTokens={filteredInactiveTokens}
+                onCurrencySelect={handleCurrencySelect}
+                otherCurrency={otherSelectedCurrency}
+                selectedCurrency={selectedCurrency}
+                fixedListRef={fixedList}
+                showCurrencyAmount={showCurrencyAmount}
+                isLoading={isLoading}
+                searchQuery={searchQuery}
+                isAddressSearch={isAddressSearch}
+              />
+            )}
+          </AutoSizer>
+        </div>
+      ) : (
+        <Column style={{ padding: '20px', height: '100%' }}>
+          <ThemedText.DeprecatedMain color={theme.deprecated_text3} textAlign="center" mb="20px">
+            <Trans>No results found.</Trans>
+          </ThemedText.DeprecatedMain>
+        </Column>
+      )}
     </ContentWrapper>
   )
 }

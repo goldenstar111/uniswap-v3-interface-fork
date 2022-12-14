@@ -1,5 +1,3 @@
-import { sendAnalyticsEvent } from '@uniswap/analytics'
-import { EventName } from '@uniswap/analytics-events'
 import { Currency, Percent, TradeType } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
 import { DEFAULT_TXN_DISMISS_MS, L2_TXN_DISMISS_MS } from 'constants/misc'
@@ -79,19 +77,6 @@ export default function Updater() {
         })
       )
 
-      const tx = transactions[chainId]?.[hash]
-
-      if (tx.info.type === TransactionType.SWAP && trade) {
-        sendAnalyticsEvent(
-          EventName.SWAP_TRANSACTION_COMPLETED,
-          formatAnalyticsEventProperties({
-            trade,
-            hash,
-            allowedSlippage,
-            succeeded: receipt.status === 1,
-          })
-        )
-      }
       addPopup(
         {
           txn: { hash },

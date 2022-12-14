@@ -1,6 +1,4 @@
 import { Trans } from '@lingui/macro'
-import { TraceEvent } from '@uniswap/analytics'
-import { BrowserEvent, ElementName, EventName } from '@uniswap/analytics-events'
 import { useWeb3React } from '@web3-react/core'
 import { IconWrapper } from '../Identicon/StatusIcon'
 import WalletDropdown from 'components/WalletDropdown'

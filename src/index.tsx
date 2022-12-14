@@ -18,7 +18,6 @@ import { isProductionEnv } from 'utils/env'
 import Web3Provider from './components/Web3Provider'
 import { LanguageProvider } from './i18n'
 import App from './pages/App'
-import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
@@ -82,7 +81,3 @@ createRoot(container).render(
     </Provider>
   </StrictMode>
 )
-
-if (process.env.REACT_APP_SERVICE_WORKER !== 'false') {
-  serviceWorkerRegistration.register()
-}
