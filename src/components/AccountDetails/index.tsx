@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { getConnection, getConnectionName, getIsCoinbaseWallet, getIsMetaMask } from 'connection/utils'
 import { useCallback } from 'react'
@@ -216,7 +217,7 @@ export default function AccountDetails({
   function formatConnectorName() {
     return (
       <WalletName>
-        Connected with {getConnectionName(connectionType, isMetaMask)}
+        <Trans>Connected with</Trans> {getConnectionName(connectionType, isMetaMask)}
       </WalletName>
     )
   }
@@ -232,7 +233,7 @@ export default function AccountDetails({
           <CloseColor />
         </CloseIcon>
         <HeaderRow>
-          Account
+          <Trans>Account</Trans>
         </HeaderRow>
         <AccountSection>
           <YourAccount>
@@ -257,7 +258,7 @@ export default function AccountDetails({
                           openOptions()
                         }}
                       >
-                        Disconnect
+                        <Trans>Disconnect</Trans>
                       </WalletAction>
                       <WalletAction
                         style={{ fontSize: '.825rem', fontWeight: 400 }}
@@ -265,7 +266,7 @@ export default function AccountDetails({
                           openOptions()
                         }}
                       >
-                        Change
+                        <Trans>Change</Trans>
                       </WalletAction>
                     </>
                   )}
@@ -284,13 +285,13 @@ export default function AccountDetails({
                   <div>
                     {account && (
                       <CopyHelper toCopy={account} gap={6} iconSize={16} fontSize={14}>
-                        Copy Address
+                        <Trans>Copy Address</Trans>
                       </CopyHelper>
                     )}
                     {chainId && account && (
                       <AddressLink href={getExplorerLink(chainId, ENSName ?? account, ExplorerDataType.ADDRESS)}>
                         <LinkIcon size={16} />
-                        View on Explorer
+                        <Trans>View on Explorer</Trans>
                       </AddressLink>
                     )}
                   </div>
@@ -304,10 +305,10 @@ export default function AccountDetails({
         <LowerSection>
           <AutoRow mb="1rem" style={{ justifyContent: 'space-between' }}>
             <ThemedText.DeprecatedBody>
-              Recent Transactions
+              <Trans>Recent Transactions</Trans>
             </ThemedText.DeprecatedBody>
             <LinkStyledButton onClick={clearAllTransactionsCallback}>
-              clear all
+              <Trans>(clear all)</Trans>
             </LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}
@@ -316,7 +317,7 @@ export default function AccountDetails({
       ) : (
         <LowerSection>
           <ThemedText.DeprecatedBody color={theme.deprecated_text1}>
-            Your transactions will appear here...
+            <Trans>Your transactions will appear here...</Trans>
           </ThemedText.DeprecatedBody>
         </LowerSection>
       )}

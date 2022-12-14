@@ -16,7 +16,9 @@ import { HashRouter } from 'react-router-dom'
 import { isProductionEnv } from 'utils/env'
 
 import Web3Provider from './components/Web3Provider'
+import { LanguageProvider } from './i18n'
 import App from './pages/App'
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
@@ -61,20 +63,26 @@ createRoot(container).render(
       <FeatureFlagsProvider>
         <QueryClientProvider client={queryClient}>
           <HashRouter>
-            <Web3Provider>
-              <RelayEnvironmentProvider environment={RelayEnvironment}>
-                <BlockNumberProvider>
-                  <Updaters />
-                  <ThemeProvider>
-                    <ThemedGlobalStyle />
-                    <App />
-                  </ThemeProvider>
-                </BlockNumberProvider>
-              </RelayEnvironmentProvider>
-            </Web3Provider>
+            <LanguageProvider>
+              <Web3Provider>
+                <RelayEnvironmentProvider environment={RelayEnvironment}>
+                  <BlockNumberProvider>
+                    <Updaters />
+                    <ThemeProvider>
+                      <ThemedGlobalStyle />
+                      <App />
+                    </ThemeProvider>
+                  </BlockNumberProvider>
+                </RelayEnvironmentProvider>
+              </Web3Provider>
+            </LanguageProvider>
           </HashRouter>
         </QueryClientProvider>
       </FeatureFlagsProvider>
     </Provider>
   </StrictMode>
 )
+
+if (process.env.REACT_APP_SERVICE_WORKER !== 'false') {
+  serviceWorkerRegistration.register()
+}
