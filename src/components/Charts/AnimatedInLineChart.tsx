@@ -1,12 +1,24 @@
 import { Group } from '@visx/group'
 import { LinePath } from '@visx/shape'
 import { easeCubicInOut } from 'd3'
-import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { animated, useSpring } from 'react-spring'
 import { useTheme } from 'styled-components/macro'
+import { ReactNode } from 'react'
+import { CurveFactory } from 'd3'
 
-import { LineChartProps } from './LineChart'
+interface LineChartProps<T> {
+  data: T[]
+  getX: (t: T) => number
+  getY: (t: T) => number
+  marginTop?: number
+  curve: CurveFactory
+  color?: string
+  strokeWidth: number
+  children?: ReactNode
+  width: number
+  height: number
+}
 
 type AnimatedInLineChartProps<T> = Omit<LineChartProps<T>, 'height' | 'width' | 'children'>
 
