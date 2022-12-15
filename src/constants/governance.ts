@@ -1,1 +1,0 @@
-export const LATEST_GOVERNOR_INDEX = 2

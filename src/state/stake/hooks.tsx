@@ -1,1 +1,0 @@
-export const STAKING_GENESIS = 1600387200
