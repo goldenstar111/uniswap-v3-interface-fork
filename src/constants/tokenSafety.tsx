@@ -18,15 +18,15 @@ export function getWarningCopy(warning: Warning | null, plural = false) {
   if (warning) {
     switch (warning.level) {
       case WARNING_LEVEL.MEDIUM:
-        heading = <p>This token isn't traded on leading U.S. centralized exchanges.</p>
+        heading = <p>This token isn&apos;t traded on leading U.S. centralized exchanges.</p>
         description = <Trans>Always conduct your own research before trading.</Trans>
         break
       case WARNING_LEVEL.UNKNOWN:
-        heading = <p>This token isn't traded on leading U.S. centralized exchanges or frequently swapped on Uniswap.</p>
+        heading = <p>This token isn&apos;t traded on leading U.S. centralized exchanges or frequently swapped on Uniswap.</p>
         description = <Trans>Always conduct your own research before trading.</Trans>
         break
       case WARNING_LEVEL.BLOCKED:
-        description = <p>You can't trade this token using the Uniswap App.</p>
+        description = <p>You can&apos;t trade this token using the Uniswap App.</p>
         break
     }
   }
