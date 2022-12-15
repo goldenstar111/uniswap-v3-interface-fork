@@ -1,7 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
-import { ButtonGray, ButtonPrimary, ButtonText } from 'components/Button'
+import { ButtonPrimary, ButtonText } from 'components/Button'
 import { AutoColumn } from 'components/Column'
-import { Menu } from 'components/Menu'
 import PositionList from 'components/PositionList'
 import { RowBetween, RowFixed } from 'components/Row'
 import { SwitchLocaleLink } from 'components/SwitchLocaleLink'
@@ -58,38 +57,6 @@ const ButtonRow = styled(RowFixed)`
     justify-content: space-between;
     flex-direction: row-reverse;
   `};
-`
-const PoolMenu = styled(Menu)`
-  margin-left: 0;
-  ${({ theme }) => theme.deprecated_mediaWidth.deprecated_upToSmall`
-    flex: 1 1 auto;
-    width: 49%;
-    right: 0px;
-  `};
-
-  a {
-    width: 100%;
-  }
-`
-const PoolMenuItem = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font-weight: 500;
-`
-const MoreOptionsButton = styled(ButtonGray)`
-  border-radius: 12px;
-  flex: 1 1 auto;
-  padding: 6px 8px;
-  width: 100%;
-  background-color: ${({ theme }) => theme.deprecated_bg0};
-  margin-right: 8px;
-`
-
-const MoreOptionsText = styled(ThemedText.DeprecatedBody)`
-  align-items: center;
-  display: flex;
 `
 
 const ErrorContainer = styled.div`
