@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { Percent } from '@uniswap/sdk-core'
+import { Trans } from 'components/Trans'
 import { ReactNode } from 'react'
 import { ArrowLeft } from 'react-feather'
 import { Link as HistoryLink, useLocation } from 'react-router-dom'

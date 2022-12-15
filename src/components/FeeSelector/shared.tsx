@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { FeeAmount } from '@uniswap/v3-sdk'
+import { Trans } from 'components/Trans'
 import { ALL_SUPPORTED_CHAIN_IDS, SupportedChainId } from 'constants/chains'
 import type { ReactNode } from 'react'
 

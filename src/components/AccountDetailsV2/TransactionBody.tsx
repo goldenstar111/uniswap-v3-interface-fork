@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { Fraction, TradeType } from '@uniswap/sdk-core'
+import { Trans } from 'components/Trans'
 import JSBI from 'jsbi'
 import {
   AddLiquidityV3PoolTransactionInfo,

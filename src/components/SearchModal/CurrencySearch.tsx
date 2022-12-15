@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-restricted-imports
-import { t, Trans } from '@lingui/macro'
 import { Currency, Token } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
+import { Trans } from 'components/Trans'
 import useDebounce from 'hooks/useDebounce'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
 import useToggle from 'hooks/useToggle'
@@ -78,15 +78,15 @@ export function CurrencySearch({
     () =>
       !balancesAreLoading
         ? filteredTokens
-          .filter((token) => {
-            // If there is no query, filter out unselected user-added tokens with no balance.
-            if (!debouncedQuery && token instanceof UserAddedToken) {
-              if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
-              return balances[token.address]?.greaterThan(0)
-            }
-            return true
-          })
-          .sort(tokenComparator.bind(null, balances))
+            .filter((token) => {
+              // If there is no query, filter out unselected user-added tokens with no balance.
+              if (!debouncedQuery && token instanceof UserAddedToken) {
+                if (selectedCurrency?.equals(token) || otherSelectedCurrency?.equals(token)) return true
+                return balances[token.address]?.greaterThan(0)
+              }
+              return true
+            })
+            .sort(tokenComparator.bind(null, balances))
         : [],
     [balances, balancesAreLoading, debouncedQuery, filteredTokens, otherSelectedCurrency, selectedCurrency]
   )
@@ -179,7 +179,7 @@ export function CurrencySearch({
           <SearchInput
             type="text"
             id="token-search-input"
-            placeholder={t`Search name or paste address`}
+            placeholder="Search name or paste address"
             autoComplete="off"
             value={searchQuery}
             ref={inputRef as RefObject<HTMLInputElement>}

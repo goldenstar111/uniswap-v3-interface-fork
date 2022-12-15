@@ -1,11 +1,12 @@
-import { Trans } from '@lingui/macro'
+import { Trans } from 'components/Trans'
 import { ReactNode } from 'react'
 import { NavLink, NavLinkProps, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components/macro'
-import Web3Status from '../Web3Status'
+
 import { Box } from '../Box'
 import { Row } from '../Flex'
 import { UniIcon } from '../icons'
+import Web3Status from '../Web3Status'
 import * as styles from './style.css'
 
 const MobileBottomBar = styled.div`

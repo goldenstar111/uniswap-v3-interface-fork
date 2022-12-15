@@ -1,7 +1,7 @@
-import { Trans } from '@lingui/macro'
 import { Connector } from '@web3-react/types'
 import INJECTED_ICON_URL from 'assets/images/arrow-right.svg'
 import METAMASK_ICON_URL from 'assets/images/metamask.png'
+import { Trans } from 'components/Trans'
 import { ConnectionType, injectedConnection } from 'connection'
 import { getConnectionName } from 'connection/utils'
 

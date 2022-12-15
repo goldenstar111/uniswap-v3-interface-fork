@@ -6,7 +6,6 @@ import { formatPercentInBasisPointsNumber, formatToDecimal, getTokenAddress } fr
 import { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from 'state/hooks'
 import { InterfaceTrade } from 'state/routing/types'
-import { TransactionType } from 'state/transactions/types'
 import { computeRealizedPriceImpact } from 'utils/prices'
 
 import { L2_CHAIN_IDS } from '../../constants/chains'

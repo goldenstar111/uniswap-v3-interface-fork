@@ -1,6 +1,6 @@
-import { Trans } from '@lingui/macro'
 import { ButtonOutlined } from 'components/Button'
 import { AutoRow } from 'components/Row'
+import { Trans } from 'components/Trans'
 import React from 'react'
 import styled from 'styled-components/macro'
 import { ThemedText } from 'theme'

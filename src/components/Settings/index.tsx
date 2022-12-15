@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-restricted-imports
-import { t, Trans } from '@lingui/macro'
 import { Percent } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
+import { Trans } from 'components/Trans'
 import { isSupportedChainId } from 'lib/hooks/routing/clientSideSmartOrderRouter'
 import { useRef, useState } from 'react'
 import { Settings, X } from 'react-feather'
@@ -163,8 +163,8 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                 error={true}
                 padding="12px"
                 onClick={() => {
-                  const confirmWord = t`confirm`
-                  if (window.prompt(t`Please type the word "${confirmWord}" to enable expert mode.`) === confirmWord) {
+                  const confirmWord = `confirm`
+                  if (window.prompt(`Please type the word "${confirmWord}" to enable expert mode.`) === confirmWord) {
                     toggleExpertMode()
                     setShowConfirmation(false)
                   }
@@ -182,7 +182,7 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
         disabled={!isSupportedChainId(chainId)}
         onClick={toggle}
         id="open-settings-dialog-button"
-        aria-label={t`Transaction Settings`}
+        aria-label="Transaction Settings"
       >
         <StyledMenuIcon />
         {expertMode ? (
@@ -231,13 +231,13 @@ export default function SettingsTab({ placeholderSlippage }: { placeholderSlippa
                 toggle={
                   expertMode
                     ? () => {
-                      toggleExpertMode()
-                      setShowConfirmation(false)
-                    }
+                        toggleExpertMode()
+                        setShowConfirmation(false)
+                      }
                     : () => {
-                      toggle()
-                      setShowConfirmation(true)
-                    }
+                        toggle()
+                        setShowConfirmation(true)
+                      }
                 }
               />
             </RowBetween>

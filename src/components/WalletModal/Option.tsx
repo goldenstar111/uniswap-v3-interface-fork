@@ -45,7 +45,7 @@ const OptionCardLeft = styled.div`
   height: 100%;
 `
 
-const OptionCardClickable = styled(OptionCard as any) <{
+const OptionCardClickable = styled(OptionCard as any)<{
   active?: boolean
   clickable?: boolean
 }>`

@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { Currency } from '@uniswap/sdk-core'
+import { Trans } from 'components/Trans'
 import { NATIVE_CHAIN_ID } from 'constants/tokens'
 import { chainIdToBackendName } from 'graphql/data/util'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'

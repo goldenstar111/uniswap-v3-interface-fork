@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import Badge, { BadgeVariant } from 'components/Badge'
+import { Trans } from 'components/Trans'
 import { AlertCircle } from 'react-feather'
 import styled from 'styled-components/macro'
 

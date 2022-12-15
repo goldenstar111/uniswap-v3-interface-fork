@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { MOBILE_MEDIA_BREAKPOINT } from 'components/Tokens/constants'
+import { Trans } from 'components/Trans'
 import useCopyClipboard from 'hooks/useCopyClipboard'
 import React, {
   forwardRef,

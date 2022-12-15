@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { Trans } from 'components/Trans'
 import { getConnection } from 'connection/utils'
 import { getChainInfoOrDefault } from 'constants/chainInfo'
 import { SupportedChainId } from 'constants/chains'
@@ -102,8 +102,7 @@ const AuthenticatedHeader = () => {
   }, [balanceString, nativeCurrencyPrice])
 
   const beautify = (_addr: any) => {
-    if (_addr.length > 14)
-      return _addr.substring(0, 6) + "..." + _addr.substring(_addr.length - 4,)
+    if (_addr.length > 14) return _addr.substring(0, 6) + '...' + _addr.substring(_addr.length - 4)
     else return _addr
   }
 

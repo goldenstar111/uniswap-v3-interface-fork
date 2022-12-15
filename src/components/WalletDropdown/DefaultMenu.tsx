@@ -1,6 +1,6 @@
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { ButtonPrimary } from 'components/Button'
+import { Trans } from 'components/Trans'
 import { Moon, Sun } from 'react-feather'
 import { useToggleWalletModal } from 'state/application/hooks'
 import { useDarkModeManager } from 'state/user/hooks'
@@ -49,10 +49,10 @@ const ToggleMenuItem = styled.button`
     color: ${({ theme }) => theme.textPrimary};
     background-color: ${({ theme }) => theme.backgroundModule};
     transition: ${({
-  theme: {
-    transition: { duration, timing },
-  },
-}) => `${duration.fast} all ${timing.in}`};
+      theme: {
+        transition: { duration, timing },
+      },
+    }) => `${duration.fast} all ${timing.in}`};
   }
 `
 

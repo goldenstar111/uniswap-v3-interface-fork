@@ -1,7 +1,7 @@
-import { Trans } from '@lingui/macro'
 import { formatCurrencyAmount, NumberType } from '@uniswap/conedison/format'
 import { Currency } from '@uniswap/sdk-core'
 import { useWeb3React } from '@web3-react/core'
+import { Trans } from 'components/Trans'
 import { NATIVE_CHAIN_ID } from 'constants/tokens'
 import { CHAIN_ID_TO_BACKEND_NAME } from 'graphql/data/util'
 import { useStablecoinValue } from 'hooks/useStablecoinPrice'

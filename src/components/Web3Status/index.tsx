@@ -1,6 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { IconWrapper } from '../Identicon/StatusIcon'
+import { Trans } from 'components/Trans'
 import WalletDropdown from 'components/WalletDropdown'
 import { getConnection } from 'connection/utils'
 import { darken } from 'polished'
@@ -22,6 +21,7 @@ import {
 import { ApplicationModal } from '../../state/application/reducer'
 import { shortenAddress } from '../../utils'
 import { ButtonSecondary } from '../Button'
+import { IconWrapper } from '../Identicon/StatusIcon'
 import StatusIcon from '../Identicon/StatusIcon'
 import WalletModal from '../WalletModal'
 
@@ -87,7 +87,7 @@ const Web3StatusConnectWrapper = styled.div<{ faded?: boolean }>`
   }
 `
 
-const Web3StatusConnected = styled(Web3StatusGeneric) <{
+const Web3StatusConnected = styled(Web3StatusGeneric)<{
   pending?: boolean
   isClaimAvailable?: boolean
 }>`
@@ -103,7 +103,7 @@ const Web3StatusConnected = styled(Web3StatusGeneric) <{
     :focus {
       border: 1px solid
         ${({ pending, theme }) =>
-    pending ? darken(0.1, theme.deprecated_primary1) : darken(0.1, theme.deprecated_bg2)};
+          pending ? darken(0.1, theme.deprecated_primary1) : darken(0.1, theme.deprecated_bg2)};
     }
   }
 
@@ -154,10 +154,10 @@ const StyledConnectButton = styled.button`
   padding: 10px 8px 10px 12px;
 
   transition: ${({
-  theme: {
-    transition: { duration, timing },
-  },
-}) => `${duration.fast} color ${timing.in}`};
+    theme: {
+      transition: { duration, timing },
+    },
+  }) => `${duration.fast} color ${timing.in}`};
 
   :hover,
   :active,
@@ -193,9 +193,7 @@ function Web3StatusInner() {
   if (!chainId) {
     return null
   } else if (error) {
-    return (
-      <Web3StatusError onClick={toggleWallet} />
-    )
+    return <Web3StatusError onClick={toggleWallet} />
   } else if (account) {
     const chevronProps = {
       ...CHEVRON_PROPS,

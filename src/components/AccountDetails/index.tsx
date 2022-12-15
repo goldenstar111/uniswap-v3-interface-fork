@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { Trans } from 'components/Trans'
 import { getConnection, getConnectionName, getIsCoinbaseWallet, getIsMetaMask } from 'connection/utils'
 import { useCallback } from 'react'
 import { ExternalLink as LinkIcon } from 'react-feather'

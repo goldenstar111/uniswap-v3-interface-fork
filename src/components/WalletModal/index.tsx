@@ -1,7 +1,7 @@
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { Connector } from '@web3-react/types'
 import { AutoColumn } from 'components/Column'
+import { Trans } from 'components/Trans'
 import { networkConnection } from 'connection'
 import { getConnection, getConnectionName, getIsCoinbaseWallet, getIsInjected, getIsMetaMask } from 'connection/utils'
 import usePrevious from 'hooks/usePrevious'

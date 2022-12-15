@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro'
+import { Trans } from 'components/Trans'
 import { getWarningCopy, TOKEN_SAFETY_ARTICLE, Warning } from 'constants/tokenSafety'
 import { useTokenWarningColor } from 'hooks/useTokenWarningColor'
 import { AlertTriangle, Slash } from 'react-feather'
